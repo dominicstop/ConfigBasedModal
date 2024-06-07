@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'ConfigBasedModal_Example' do
+  pod 'ConfigBasedModal', :path => '../'
+
+  target 'ConfigBasedModal_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

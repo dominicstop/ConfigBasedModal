@@ -1,0 +1,16 @@
+PODS:
+  - ConfigBasedModal (0.1.0)
+
+DEPENDENCIES:
+  - ConfigBasedModal (from `../`)
+
+EXTERNAL SOURCES:
+  ConfigBasedModal:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ConfigBasedModal: ef7e2c28790a9b0ced8e05cbe86c752a274b7a1c
+
+PODFILE CHECKSUM: efecc3bb1aadbf7ba7a752ea863d871a027a75da
+
+COCOAPODS: 1.15.2
