@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */; };
 		88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */; };
-		88F1B9512C13BCE50040EF3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9502C13BCE50040EF3D /* ViewController.swift */; };
-		88F1B9542C13BCE50040EF3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88F1B9522C13BCE50040EF3D /* Main.storyboard */; };
 		88F1B9562C13BCE70040EF3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88F1B9552C13BCE70040EF3D /* Assets.xcassets */; };
 		88F1B9592C13BCE70040EF3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88F1B9572C13BCE70040EF3D /* LaunchScreen.storyboard */; };
+		88F1B9632C13BFA90040EF3D /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9612C13BFA90040EF3D /* Route.swift */; };
+		88F1B9652C13BFED0040EF3D /* Test01ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9642C13BFEC0040EF3D /* Test01ViewController.swift */; };
+		88F1B9682C13C2030040EF3D /* ConfigBasedModal in Frameworks */ = {isa = PBXBuildFile; productRef = 88F1B9672C13C2030040EF3D /* ConfigBasedModal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		88F1B9492C13BCE50040EF3D /* ConfigBasedModalExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConfigBasedModalExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		88F1B9502C13BCE50040EF3D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		88F1B9532C13BCE50040EF3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		88F1B9552C13BCE70040EF3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88F1B9582C13BCE70040EF3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88F1B95A2C13BCE70040EF3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88F1B9612C13BFA90040EF3D /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		88F1B9642C13BFEC0040EF3D /* Test01ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test01ViewController.swift; sourceTree = "<group>"; };
+		88F1B9692C13C2850040EF3D /* ConfigBasedModal */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ConfigBasedModal; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88F1B9682C13C2030040EF3D /* ConfigBasedModal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,7 +43,10 @@
 		88F1B9402C13BCE50040EF3D = {
 			isa = PBXGroup;
 			children = (
+				88F1B9692C13C2850040EF3D /* ConfigBasedModal */,
 				88F1B94B2C13BCE50040EF3D /* ConfigBasedModalExample */,
+				88F1B9622C13BFA90040EF3D /* Examples */,
+				88F1B9602C13BFA90040EF3D /* Sources */,
 				88F1B94A2C13BCE50040EF3D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,13 +64,27 @@
 			children = (
 				88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */,
 				88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */,
-				88F1B9502C13BCE50040EF3D /* ViewController.swift */,
-				88F1B9522C13BCE50040EF3D /* Main.storyboard */,
 				88F1B9552C13BCE70040EF3D /* Assets.xcassets */,
 				88F1B9572C13BCE70040EF3D /* LaunchScreen.storyboard */,
 				88F1B95A2C13BCE70040EF3D /* Info.plist */,
 			);
 			path = ConfigBasedModalExample;
+			sourceTree = "<group>";
+		};
+		88F1B9602C13BFA90040EF3D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				88F1B9612C13BFA90040EF3D /* Route.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		88F1B9622C13BFA90040EF3D /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				88F1B9642C13BFEC0040EF3D /* Test01ViewController.swift */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +103,9 @@
 			dependencies = (
 			);
 			name = ConfigBasedModalExample;
+			packageProductDependencies = (
+				88F1B9672C13C2030040EF3D /* ConfigBasedModal */,
+			);
 			productName = ConfigBasedModalExample;
 			productReference = 88F1B9492C13BCE50040EF3D /* ConfigBasedModalExample.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +134,8 @@
 				Base,
 			);
 			mainGroup = 88F1B9402C13BCE50040EF3D;
+			packageReferences = (
+			);
 			productRefGroup = 88F1B94A2C13BCE50040EF3D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +152,6 @@
 			files = (
 				88F1B9592C13BCE70040EF3D /* LaunchScreen.storyboard in Resources */,
 				88F1B9562C13BCE70040EF3D /* Assets.xcassets in Resources */,
-				88F1B9542C13BCE50040EF3D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +162,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88F1B9512C13BCE50040EF3D /* ViewController.swift in Sources */,
+				88F1B9632C13BFA90040EF3D /* Route.swift in Sources */,
 				88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */,
 				88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */,
+				88F1B9652C13BFED0040EF3D /* Test01ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		88F1B9522C13BCE50040EF3D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				88F1B9532C13BCE50040EF3D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		88F1B9572C13BCE70040EF3D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,9 +314,9 @@
 				INFOPLIST_FILE = ConfigBasedModalExample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -325,9 +342,9 @@
 				INFOPLIST_FILE = ConfigBasedModalExample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -363,6 +380,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		88F1B9672C13C2030040EF3D /* ConfigBasedModal */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ConfigBasedModal;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 88F1B9412C13BCE50040EF3D /* Project object */;
 }
