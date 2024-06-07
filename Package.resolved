@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "computablelayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dominicstop/ComputableLayout",
+      "state" : {
+        "revision" : "b9f9301497e23f18cd61d92c37ab1f9f65ce95b3",
+        "version" : "0.7.0"
+      }
+    },
+    {
+      "identity" : "dgswiftutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dominicstop/DGSwiftUtilities",
+      "state" : {
+        "revision" : "3d5033997b35145727672fbc9de341d601f4a6cb",
+        "version" : "0.21.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -4,20 +4,37 @@
 import PackageDescription
 
 let package = Package(
-    name: "ConfigBasedModal",
-    products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "ConfigBasedModal",
-            targets: ["ConfigBasedModal"]),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "ConfigBasedModal"),
-        .testTarget(
-            name: "ConfigBasedModalTests",
-            dependencies: ["ConfigBasedModal"]),
-    ]
+  name: "ConfigBasedModal",
+  platforms: [
+    .iOS(.v12),
+  ],
+  products: [
+    .library(
+      name: "ConfigBasedModal",
+      targets: ["ConfigBasedModal"]
+    ),
+  ],
+  dependencies: [
+    .package(
+      url: "https://github.com/dominicstop/ComputableLayout",
+      .upToNextMajor(from: "0.7.0")
+    ),
+    .package(
+      url: "https://github.com/dominicstop/DGSwiftUtilities",
+      .upToNextMajor(from: "0.11.0")
+    ),
+  ],
+  targets: [
+    .target(
+      name: "ConfigBasedModal",
+      dependencies: [
+        "ComputableLayout",
+        "DGSwiftUtilities",
+      ],
+      path: "Sources",
+      linkerSettings: [
+        .linkedFramework("UIKit"),
+      ]
+    ),
+  ]
 )
