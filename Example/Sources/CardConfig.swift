@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 public struct CardConfig {
 
   // MARK: - Properties
@@ -17,23 +16,8 @@ public struct CardConfig {
   public var subtitle: String?;
   public var desc: [AttributedStringConfig];
   public var index: Int?;
-  
-  public var colorAccent: UIColor = ColorPreset.purpleA700.color;
-  public var colorBgAccent: UIColor = ColorPreset.purple600.color;
-  public var colorBg: UIColor = ColorPreset.purple100.color;
-  public var colorTextAccent: UIColor = ColorPreset.purple900.color;
-  
-  public var colorTextDark: UIColor = {
-    let rgba = ColorPreset.purple1000.color.rgba;
+  public var colorThemeConfig: ColorThemeConfig;
     
-    return .init(
-      red: rgba.r,
-      green: rgba.g,
-      blue: rgba.b,
-      alpha: 0.8
-    );
-  }();
-  
   public var content: [CardContentItem];
   
   // MARK: - Init
@@ -44,38 +28,14 @@ public struct CardConfig {
     subtitle: String? = nil,
     desc: [AttributedStringConfig],
     index: Int? = nil,
-    colorAccent: UIColor? = nil,
-    colorBgAccent: UIColor? = nil,
-    colorBg: UIColor? = nil,
-    colorTextAccent: UIColor? = nil,
-    colorTextDark: UIColor? = nil,
+    colorThemeConfig: ColorThemeConfig = .presetPurple,
     content: [CardContentItem]
   ) {
     self.title = title;
     self.subtitle = subtitle;
     self.desc = desc;
     self.index = index;
-    
-    if let colorAccent = colorAccent {
-      self.colorAccent = colorAccent;
-    };
-    
-    if let colorBgAccent = colorBgAccent {
-      self.colorBgAccent = colorBgAccent;
-    };
-    
-    if let colorBg = colorBg {
-      self.colorBg = colorBg;
-    };
-    
-    if let colorTextAccent = colorTextAccent {
-      self.colorTextAccent = colorTextAccent;
-    };
-    
-    if let colorTextDark = colorTextDark {
-      self.colorTextDark = colorTextDark;
-    };
-    
+    self.colorThemeConfig = colorThemeConfig;
     self.content = content;
   }
   
@@ -93,7 +53,7 @@ public struct CardConfig {
       stack.alignment = .fill;
       stack.spacing = 8;
       
-      stack.backgroundColor = self.colorBgAccent;
+      stack.backgroundColor = self.colorThemeConfig.colorBgDark;
       
       stack.isLayoutMarginsRelativeArrangement = true;
       stack.layoutMargins = UIEdgeInsets(
@@ -213,7 +173,7 @@ public struct CardConfig {
         .init(
           text: "Description: ",
           weight: .bold,
-          color: self.colorTextAccent
+          color: self.colorThemeConfig.colorBgDark
         ),
       ];
       
@@ -221,7 +181,7 @@ public struct CardConfig {
       
       for index in 0..<configs.count {
         if configs[index].foregroundColor == nil {
-          configs[index].foregroundColor = self.colorTextDark;
+          configs[index].foregroundColor = self.colorThemeConfig.colorTextDark;
         };
       };
       
@@ -254,7 +214,7 @@ public struct CardConfig {
       return stack;
     }();
     
-    rootVStack.backgroundColor = self.colorBg;
+    rootVStack.backgroundColor = self.colorThemeConfig.colorBgLight;
     
     let headingVStack = self._createCardHeader();
     rootVStack.addArrangedSubview(headingVStack);
