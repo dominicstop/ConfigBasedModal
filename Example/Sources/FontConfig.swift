@@ -99,6 +99,10 @@ public struct FontConfig {
   public func makeFontDescriptor() -> UIFontDescriptor {
     var descriptor = self.baseFontDescriptor;
     
+    if let nextDescriptor = descriptor.withSymbolicTraits(self.symbolicTraits) {
+      descriptor = nextDescriptor;
+    };
+    
     var attributes = descriptor.fontAttributes;
     attributes[.size] = self.size;
     
@@ -107,10 +111,6 @@ public struct FontConfig {
     
     attributes[.traits] = traits;
     descriptor = descriptor.addingAttributes(attributes);
-    
-    if let nextDescriptor = descriptor.withSymbolicTraits(self.symbolicTraits) {
-      descriptor = nextDescriptor;
-    };
     
     return descriptor;
   };
