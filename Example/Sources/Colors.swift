@@ -8,7 +8,7 @@
 import UIKit
 import DGSwiftUtilities
 
-public enum ColorBlack: String, CaseIterable {
+public enum ColorPreset: String, CaseIterable {
   case black100;
   case black200;
   case black300;
