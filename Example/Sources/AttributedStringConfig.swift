@@ -21,7 +21,7 @@ public struct AttributedStringConfig {
   public var fontConfig: FontConfig;
   
   public var paragraphStyle: NSParagraphStyle;
-  public var foregroundColor: UIColor;
+  public var foregroundColor: UIColor?;
   public var backgroundColor: UIColor?;
   
   public var strikethroughStyle: NSUnderlineStyle?;
@@ -52,7 +52,7 @@ public struct AttributedStringConfig {
     
     attributes[.font] = self.fontConfig.makeFont();
     attributes[.paragraphStyle] = self.paragraphStyle;
-    attributes[.foregroundColor] = self.foregroundColor;
+    attributes[.foregroundColor] = self.foregroundColor ?? .label;
     
     if let backgroundColor = self.backgroundColor {
       attributes[.backgroundColor] = backgroundColor;
@@ -92,7 +92,7 @@ public struct AttributedStringConfig {
     text: String,
     fontConfig: FontConfig = .default,
     paragraphStyle: NSParagraphStyle = .default,
-    color: UIColor = .systemBackground,
+    color: UIColor? = nil,
     backgroundColor: UIColor? = nil,
     strikethroughStyle: NSUnderlineStyle? = nil,
     strikethroughColor: UIColor? = nil,
@@ -117,13 +117,13 @@ public struct AttributedStringConfig {
   
   public init(
     text: String,
-    size: CGFloat,
+    size: CGFloat = UIFont.systemFontSize,
     weight: UIFont.Weight = .regular,
     isBold: Bool = false,
     isItalic: Bool = false,
     width: FontConfig.FontWidth = .default,
     paragraphStyle: NSParagraphStyle = .default,
-    color: UIColor = .systemBackground,
+    color: UIColor? = nil,
     backgroundColor: UIColor? = nil,
     strikethroughStyle: NSUnderlineStyle? = nil,
     strikethroughColor: UIColor? = nil,
