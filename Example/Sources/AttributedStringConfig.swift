@@ -12,6 +12,10 @@ public struct AttributedStringConfig {
 
   public static let newLine: Self = .init(text: "\n");
   
+  public static func newLines(_ count: Int) -> Self {
+    .init(text: String(repeating: "\n", count: count));
+  };
+  
   //static var attributesMap: PartialKeyPath<Self>
   
   // MARK: Properties
