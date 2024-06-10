@@ -50,42 +50,53 @@ public struct FontConfig {
   
   public var baseFontDescriptor = Self.baseFont.fontDescriptor;
   
-  public var size: CGFloat;
-  public var weight: UIFont.Weight;
+  public var size: CGFloat?;
+  public var weight: UIFont.Weight?;
   
-  public var symbolicTraits: UIFontDescriptor.SymbolicTraits = [];
+  public var symbolicTraits: UIFontDescriptor.SymbolicTraits? = nil;
   
   // MARK: - Init
   // ------------
   
   public init(
     baseFontDescriptor: UIFontDescriptor = Self.baseFont.fontDescriptor,
-    size: CGFloat,
-    weight: UIFont.Weight = .regular,
+    size: CGFloat?,
+    weight: UIFont.Weight? = nil,
     isBold: Bool = false,
     isItalic: Bool = false,
-    width: FontWidth = .default
+    width: FontWidth? = nil
   ) {
     self.baseFontDescriptor = baseFontDescriptor;
     self.size = size;
     self.weight = weight;
     
+    var didSetSymbolicTraits = false;
+    var symbolicTraits: UIFontDescriptor.SymbolicTraits = [];
+    
     if isBold {
-      self.symbolicTraits = self.symbolicTraits.union(.traitBold);
+      didSetSymbolicTraits = true;
+      symbolicTraits = symbolicTraits.union(.traitBold);
     };
     
     if isItalic {
-      self.symbolicTraits = self.symbolicTraits.union(.traitItalic);
+      didSetSymbolicTraits = true;
+      symbolicTraits = symbolicTraits.union(.traitItalic);
     };
     
-    self.symbolicTraits = self.symbolicTraits.union(width.symbolicTrait);
+    if let width = width  {
+      symbolicTraits = symbolicTraits.union(width.symbolicTrait);
+    };
+    
+    if didSetSymbolicTraits {
+      self.symbolicTraits = symbolicTraits;
+    };
   };
   
   public init(
     baseFontDescriptor: UIFontDescriptor = Self.baseFont.fontDescriptor,
-    size: CGFloat,
-    weight: UIFont.Weight,
-    symbolicTraits: UIFontDescriptor.SymbolicTraits
+    size: CGFloat?,
+    weight: UIFont.Weight?,
+    symbolicTraits: UIFontDescriptor.SymbolicTraits?
   ) {
     self.baseFontDescriptor = baseFontDescriptor;
     self.size = size;
@@ -99,15 +110,19 @@ public struct FontConfig {
   public func makeFontDescriptor() -> UIFontDescriptor {
     var descriptor = self.baseFontDescriptor;
     
-    if let nextDescriptor = descriptor.withSymbolicTraits(self.symbolicTraits) {
+    if let symbolicTraits = self.symbolicTraits,
+       let nextDescriptor = descriptor.withSymbolicTraits(symbolicTraits) {
+       
       descriptor = nextDescriptor;
     };
     
     var attributes = descriptor.fontAttributes;
-    attributes[.size] = self.size;
+    if let size = self.size {
+      attributes[.size] = self.size;
+    };
     
     var traits = attributes[.traits] as? [UIFontDescriptor.TraitKey: Any] ?? [:];
-    traits[.weight] = self.weight;
+    traits[.weight] = self.weight ?? .regular;
     
     attributes[.traits] = traits;
     descriptor = descriptor.addingAttributes(attributes);
