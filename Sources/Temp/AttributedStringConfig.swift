@@ -56,7 +56,14 @@ public struct AttributedStringConfig {
     
     attributes[.font] = self.fontConfig.makeFont();
     attributes[.paragraphStyle] = self.paragraphStyle;
-    attributes[.foregroundColor] = self.foregroundColor ?? .label;
+    
+    attributes[.foregroundColor] = self.foregroundColor ?? {
+      if #available(iOS 13.0, *) {
+        return .label;
+      };
+      
+      return .black;
+    }();
     
     if let backgroundColor = self.backgroundColor {
       attributes[.backgroundColor] = backgroundColor;

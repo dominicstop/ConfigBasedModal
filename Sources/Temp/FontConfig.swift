@@ -118,7 +118,7 @@ public struct FontConfig {
     
     var attributes = descriptor.fontAttributes;
     if let size = self.size {
-      attributes[.size] = self.size;
+      attributes[.size] = size;
     };
     
     var traits = attributes[.traits] as? [UIFontDescriptor.TraitKey: Any] ?? [:];

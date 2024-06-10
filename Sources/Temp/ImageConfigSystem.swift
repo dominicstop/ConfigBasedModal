@@ -7,7 +7,7 @@
 
 import UIKit
 
-
+@available(iOS 13.0, *)
 public struct ImageConfigSystem {
   public enum ColorType {
     case hierarchicalColor(UIColor);
@@ -23,7 +23,9 @@ public struct ImageConfigSystem {
   
   public var color: ColorType?;
   
-  @available(iOS 13.0, *)
+  // MARK: - Computed Properties
+  // ---------------------------
+
   public var symbolConfigs: [UIImage.SymbolConfiguration] {
     var configs: [UIImage.SymbolConfiguration] = [];
     
@@ -61,7 +63,6 @@ public struct ImageConfigSystem {
     return configs;
   };
   
-  @available(iOS 13.0, *)
   public var symbolConfig: UIImage.SymbolConfiguration? {
     var combinedConfig: UIImage.SymbolConfiguration?;
     
@@ -77,7 +78,6 @@ public struct ImageConfigSystem {
     return combinedConfig;
   };
   
-  @available(iOS 13.0, *)
   public var baseImage: UIImage? {
     if let symbolConfig = symbolConfig {
       return UIImage(
