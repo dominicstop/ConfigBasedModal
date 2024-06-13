@@ -6,6 +6,34 @@
 //
 
 import UIKit
+import ConfigBasedModal
+
+
+public class CardViewController: UIViewController {
+
+  public var cardConfig: CardConfig;
+  
+  public init(cardConfig: CardConfig){
+    self.cardConfig = cardConfig;
+    super.init(nibName: nil, bundle: nil);
+  };
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented");
+  };
+  
+  public override func loadView() {
+    self.applyCardConfig();
+  };
+  
+  public func applyCardConfig(){
+    if self.isViewLoaded {
+      self.view.removeFromSuperview();
+    };
+    
+    self.view = self.cardConfig.createCardView();
+  };
+};
 
 public struct CardConfig {
 
@@ -19,6 +47,8 @@ public struct CardConfig {
   public var colorThemeConfig: ColorThemeConfig;
     
   public var content: [CardContentItem];
+  
+  public weak var cardViewController: CardViewController?;
   
   // MARK: - Init
   // ------------
@@ -157,11 +187,13 @@ public struct CardConfig {
       stack.alignment = .fill;
       stack.spacing = 12;
       
+      let hasContent = self.content.count > 0;
+      
       stack.isLayoutMarginsRelativeArrangement = true;
       stack.layoutMargins = UIEdgeInsets(
         top: 8,
         left: 10,
-        bottom: 8,
+        bottom: hasContent ? 12 : 8,
         right: 10
       );
                 
@@ -194,6 +226,14 @@ public struct CardConfig {
       
       return label;
     }());
+    
+    let contentViews = self.content.map {
+      $0.makeContent(themeColorConfig: self.colorThemeConfig);
+    };
+    
+    contentViews.forEach {
+      bodyVStack.addArrangedSubview($0);
+    };
     
     return bodyVStack;
   };

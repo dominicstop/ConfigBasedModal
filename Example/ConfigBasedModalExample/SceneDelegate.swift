@@ -32,10 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let routeManager = RouteManager.sharedInstance;
     routeManager.window = window;
+    routeManager.applyCurrentRoute();
     
     let rootVC = routeManager.currentRoute.viewController;
-    
-    window.rootViewController = rootVC;
     window.makeKeyAndVisible();
   };
   

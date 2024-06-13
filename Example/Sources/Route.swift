@@ -25,6 +25,9 @@ class RouteManager {
   
   weak var window: UIWindow?;
   
+  var shouldUseNavigationController = true;
+  var navController: UINavigationController?;
+  
   var routes: [Route] = [
     .Test01,
   ];
@@ -43,6 +46,37 @@ class RouteManager {
     guard let window = self.window else { return };
   
     let nextVC = self.currentRoute.viewController;
-    window.rootViewController = nextVC;
+    
+    let navVC: UINavigationController? = {
+      guard self.shouldUseNavigationController else {
+        return nil;
+      };
+      
+      if let navController = self.navController {
+        return navController;
+      };
+      
+      let navVC = UINavigationController(
+        rootViewController: self.currentRoute.viewController
+      );
+      
+      self.navController = navController;
+      return navVC;
+    }();
+    
+    let isFirstSetupForNavVC = window.rootViewController !== navVC;
+    
+    if isFirstSetupForNavVC {
+      window.rootViewController = navController;
+    };
+    
+    if self.shouldUseNavigationController,
+       !isFirstSetupForNavVC {
+      
+      navVC?.pushViewController(nextVC, animated: true);
+    
+    } else {
+      window.rootViewController = nextVC;
+    };
   };
 };

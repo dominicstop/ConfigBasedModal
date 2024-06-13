@@ -6,14 +6,15 @@
 //
 
 import UIKit
-
+import ConfigBasedModal
 
 public enum CardContentItem {
-  case button(
-    title: AttributedStringConfig,
-    subtitle: [AttributedStringConfig]?,
-    icon: ImageConfigSystem?,
-    onPressHandler: () -> Void
+
+  case filledButton(
+    title: [AttributedStringConfig],
+    subtitle: [AttributedStringConfig]? = nil,
+    controlEvent: UIControl.Event = .primaryActionTriggered,
+    handler: (() -> Void)?
   );
   
   case label([AttributedStringConfig]);
@@ -24,11 +25,72 @@ public enum CardContentItem {
   // MARK: Functions
   // ---------------
   
-  func makeContent(prevItem: UIView? = nil) -> UIView {
+  func makeContent(themeColorConfig: ColorThemeConfig) -> UIView {
     switch self {
-      case let .button(title, subtitle, icon, onPressHandler):
-        let button = UIButton();
+      case let .filledButton(title, subtitle, controlEvent, handler):
+        let button = UIButton(type: .system);
         
+        var attributedStringConfigs: [AttributedStringConfig] = [];
+        attributedStringConfigs += title.map {
+          var config = $0;
+          if config.fontConfig.weight == nil {
+            config.fontConfig.weight = .bold;
+          };
+          
+          return config;
+        };
+        
+        if var subtitle = subtitle,
+           subtitle.count > 0 {
+          
+          subtitle.insert(.newLine, at: 0);
+          attributedStringConfigs += subtitle.map {
+            var config = $0;
+            if config.fontConfig.weight == nil {
+              config.fontConfig.size = 14;
+            };
+            
+            return config;
+          };
+          
+          button.titleLabel?.lineBreakMode = .byWordWrapping;
+          button.contentHorizontalAlignment = .left;
+          
+          button.contentEdgeInsets =
+            .init(top: 6, left: 12, bottom: 6, right: 12);
+          
+        } else {
+          button.contentEdgeInsets =
+            .init(top: 8, left: 8, bottom: 8, right: 8);
+        };
+        
+        for index in 0..<attributedStringConfigs.count {
+          if attributedStringConfigs[index].foregroundColor == nil {
+            attributedStringConfigs[index].foregroundColor = themeColorConfig.colorTextLight;
+          };
+        };
+        
+        let attributedString =
+          attributedStringConfigs.makeAttributedString();
+        
+        button.setAttributedTitle(attributedString, for: .normal);
+        
+        button.tintColor = .white
+        button.layer.cornerRadius = 8;
+        button.layer.masksToBounds = true;
+        
+        let imageConfig = ImageConfigSolid(
+          fillColor: themeColorConfig.colorBgAccent
+        );
+        
+        button.setBackgroundImage(
+          imageConfig.makeImage(),
+          for: .normal
+        );
+        
+        if let handler = handler {
+          button.addAction(for: controlEvent, action: handler);
+        };
         
         return button;
         
@@ -37,15 +99,13 @@ public enum CardContentItem {
         
         label.font = nil;
         label.textColor = nil;
-        label.numberOfLines = 0
         label.attributedText = configs.makeAttributedString();
         
-        label.attributedText = configs.makeAttributedString();
         return label;
         
       case let .multiLineLabel(configs):
-      
         let label = UILabel();
+        
         label.font = nil;
         label.textColor = nil;
         label.numberOfLines = 0
