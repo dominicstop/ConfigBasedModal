@@ -9,6 +9,8 @@ import Foundation
 
 
 public protocol ValueInjectable: AnyObject {
+
+  associatedtype Keys: RawRepresentable<String> = String;
   
   typealias InjectedValuesMap = Dictionary<String, Any?>;
   
