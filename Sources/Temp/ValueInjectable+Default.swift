@@ -8,6 +8,7 @@
 import Foundation
 
 fileprivate struct AssociatedKeys {
+
   static var injectedKeys: UInt = 0;
 };
 
@@ -16,6 +17,7 @@ extension NSObject: ValueInjectable {
 };
 
 public extension ValueInjectable {
+
   var injectedValues: InjectedValuesMap {
     set {
       self.setAssociatedObject(
@@ -47,6 +49,44 @@ public extension ValueInjectable {
   
   func getAssociatedObject<T>(associativeKey: UnsafeRawPointer) -> T? {
     return objc_getAssociatedObject(self, associativeKey) as? T;
+  };
+  
+  func setInjectedValue<T, U: RawRepresentable<String>>(
+    keys: U.Type = Self.Keys.self,
+    forKey key: U,
+    value: T?,
+    type: T.Type = T.self
+  ) {
+    
+    self.injectedValues[key.rawValue] = value;
+  };
+  
+  func getInjectedValue<T, U: RawRepresentable<String>>(
+    keys: U.Type = Self.Keys.self,
+    forKey key: U,
+    fallbackValue: T? = nil,
+    type: T.Type = T.self
+  ) -> T? {
+  
+    if let value = self.injectedValues[key.rawValue] as? T {
+      return value;
+    };
+    
+    return nil;
+  };
+  
+  func getInjectedValue<T, U: RawRepresentable<String>>(
+    keys: U.Type = Self.Keys.self,
+    forKey key: U,
+    fallbackValue: T,
+    type: T.Type = T.self
+  ) -> T {
+    if let value = self.injectedValues[key.rawValue] as? T {
+      return value;
+    };
+    
+    self.injectedValues[key.rawValue] = fallbackValue;
+    return fallbackValue;
   };
 };
 
