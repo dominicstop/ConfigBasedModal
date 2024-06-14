@@ -8,7 +8,13 @@
 import Foundation
 
 
-public enum ModalPresentationState {
+public enum ModalPresentationState: Equatable {
+  
+  public static let initialState: Self = .dismissed(trigger: .unknown);
+  
+  // MARK: - Enum Values
+  // -------------------
+
   case dismissed(trigger: ModalPresentationTrigger = .unknown);
   case dismissing(trigger: ModalPresentationTrigger = .unknown);
   
@@ -23,6 +29,22 @@ public enum ModalPresentationState {
   
   // MARK: - Computed Properties - Public
   // ------------------------------------
+  
+  public var memberName: String {
+    switch self {
+      case .dismissed:
+        return "dismissed";
+        
+      case .dismissing:
+        return "dismissing";
+        
+      case .presenting:
+        return "presenting";
+        
+      case .presented:
+        return "presented";
+    };
+  };
   
   public var isDismissing: Bool {
     switch self {
@@ -107,6 +129,22 @@ public enum ModalPresentationState {
         
       default:
         return false;
+    };
+  };
+  
+  public var presentationTrigger: ModalPresentationTrigger {
+    switch self {
+      case let .dismissed(trigger):
+        return trigger;
+        
+      case let .dismissing(trigger):
+        return trigger;
+        
+      case let .presenting(trigger, _):
+        return trigger;
+        
+      case let .presented(trigger, _):
+        return trigger;
     };
   };
   
