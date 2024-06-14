@@ -76,6 +76,26 @@ public enum ModalPresentationState: Equatable {
     };
   };
   
+  public var isDismissingViaGesture: Bool {
+    switch self {
+      case let .dismissing(trigger):
+        return trigger == .gesture;
+        
+      default:
+        return false;
+    };
+  };
+  
+  public var isDismissingProgrammatically: Bool {
+    switch self {
+      case let .dismissing(trigger):
+        return trigger == .programmatic;
+        
+      default:
+        return false;
+    };
+  };
+  
   public var isPresenting: Bool {
     switch self {
       case .presenting:
@@ -145,6 +165,26 @@ public enum ModalPresentationState: Equatable {
         
       case let .presented(trigger, _):
         return trigger;
+    };
+  };
+  
+  public var willCancelDismissal: Bool {
+    switch self {
+      case let .presenting(_, wasDismissCancelled):
+        return wasDismissCancelled;
+        
+      default:
+        return false;
+    }
+  };
+  
+  public var didCancelDismissal: Bool {
+    switch self {
+      case let .presented(_, wasDismissCancelled):
+        return wasDismissCancelled;
+        
+      default:
+        return false;
     };
   };
   
