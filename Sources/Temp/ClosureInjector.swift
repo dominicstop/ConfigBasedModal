@@ -12,20 +12,15 @@ public class ClosureInjector {
   public let handle: String;
 
   public init(
-    attachTo targetObject: AnyObject,
+    attachTo targetObject: any ValueInjectable,
     closure: @escaping () -> Void
   ) {
     self.closure = closure;
     
-    let handle = "\(ObjectIdentifier(targetObject))" + arc4random().description;
+    let handle = arc4random().description;
     self.handle = handle;
     
-    objc_setAssociatedObject(
-      /* object: */ targetObject,
-      /* key   : */ handle,
-      /* value : */ self,
-      /* policy: */ .OBJC_ASSOCIATION_RETAIN
-    );
+    targetObject.injectedValues[handle] = self;
   };
 
   @objc
@@ -33,6 +28,4 @@ public class ClosureInjector {
     self.closure();
   };
 };
-
-
 
