@@ -7,6 +7,9 @@
 
 import UIKit
 
+fileprivate enum AssociatedKeys: String {
+  case modalFocusState;
+};
 
 extension UIViewController {
   
@@ -130,5 +133,21 @@ extension UIViewController {
     };
     
     return match.offset;
+  };
+  
+  public var modalFocusState: ModalFocusState? {
+    get {
+      self.getInjectedValue(
+        keys: AssociatedKeys.self,
+        forKey: .modalFocusState
+      );
+    }
+    set {
+      self.setInjectedValue(
+        keys: AssociatedKeys.self,
+        forKey: .modalFocusState,
+        value: newValue
+      );
+    }
   };
 };
