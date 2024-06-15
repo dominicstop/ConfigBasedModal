@@ -46,7 +46,7 @@ class Test01ViewController: UIViewController {
         content: [
           .filledButton(
             title: [.init(text: "Present Modal")],
-            handler: {
+            handler: { _ in
               let manager = ModalConfigManager();
               let modalVC = Test01ViewController();
               
@@ -57,7 +57,7 @@ class Test01ViewController: UIViewController {
           ),
           .filledButton(
             title: [.init(text: "Log Modal Details")],
-            handler: {
+            handler: { _ in
               print(
                 "Log Modal Details:",
                 "\n - isPresentedAsModal:", self.isPresentedAsModal,
@@ -97,7 +97,7 @@ class Test01ViewController: UIViewController {
           .filledButton(
             title: [.init(text: "Button")],
             subtitle: [.init(text: "Subtitle lorum ipsum")],
-            handler: {
+            handler: { _ in
               print("pressed");
             }
           ),

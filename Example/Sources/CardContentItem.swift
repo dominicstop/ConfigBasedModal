@@ -14,7 +14,7 @@ public enum CardContentItem {
     title: [AttributedStringConfig],
     subtitle: [AttributedStringConfig]? = nil,
     controlEvent: UIControl.Event = .primaryActionTriggered,
-    handler: (() -> Void)?
+    handler: ((_ context: CardConfig) -> Void)?
   );
   
   case label([AttributedStringConfig]);
@@ -25,7 +25,11 @@ public enum CardContentItem {
   // MARK: Functions
   // ---------------
   
-  func makeContent(themeColorConfig: ColorThemeConfig) -> UIView {
+  func makeContent(
+    cardConfig: CardConfig,
+    themeColorConfig: ColorThemeConfig
+  ) -> UIView {
+  
     switch self {
       case let .filledButton(title, subtitle, controlEvent, handler):
         let button = UIButton(type: .system);
@@ -89,7 +93,9 @@ public enum CardContentItem {
         );
         
         if let handler = handler {
-          button.addAction(for: controlEvent, action: handler);
+          button.addAction(for: controlEvent){
+            handler(cardConfig);
+          };
         };
         
         return button;
