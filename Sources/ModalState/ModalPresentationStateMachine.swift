@@ -120,7 +120,7 @@ public struct ModalPresentationStateMachine {
           nextSM.didChange
     else { return };
     
-    var nextState: ModalPresentationState = {
+    let nextState: ModalPresentationState = {
       if nextSM.willCancelDismissal {
         return .presenting(
           trigger: nextStateRaw.presentationTrigger,
