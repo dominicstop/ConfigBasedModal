@@ -204,8 +204,13 @@ fileprivate extension UIViewController {
 
   func setModalFocusState(_ nextState: ModalFocusState){
     guard self.modalFocusState != nextState else { return };
+    let eventDelegate = self as? ModalFocusEventsNotifiable;
     let prevState = self.modalFocusState ?? .blurred;
     
     self.modalFocusState = nextState;
+    eventDelegate?.notifyForModalFocusStateChange(
+      prevState: prevState,
+      nextState: nextState
+    );
   };
 };

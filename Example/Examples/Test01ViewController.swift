@@ -18,8 +18,12 @@ class ModalViewController: UIViewController {
 };
 
 
-class Test01ViewController: UIViewController {
+class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
 
+  var cardThemeConfig: ColorThemeConfig = .presetPurple;
+
+  var modalDebugDisplayVStack: UIStackView?;
+  
   override func viewDidLoad() {
     self.view.backgroundColor = .white;
     
@@ -38,7 +42,7 @@ class Test01ViewController: UIViewController {
     var cardConfig: [CardConfig] = [];
     
     cardConfig.append({
-      let extraContentVStack = UIStackView();
+      let modalDebugDisplayVStack = self.setModalDebugDisplay();
       
       return .init(
         title: "Test Present",
@@ -47,7 +51,7 @@ class Test01ViewController: UIViewController {
         ],
         index: cardConfig.count + 1,
         content: [
-          .view(extraContentVStack),
+          .view(modalDebugDisplayVStack),
           .filledButton(
             title: [.init(text: "Present Modal")],
             handler: { _ in
@@ -62,51 +66,8 @@ class Test01ViewController: UIViewController {
           .filledButton(
             title: [.init(text: "Log Modal Details")],
             handler: { _ in
+              self.setModalDebugDisplay();
               
-              let labelValueDisplayConfig = CardLabelValueDisplayConfig(
-                items: [
-                  .singleRowPlain(
-                    label: "isPresentedAsModal",
-                    value: self.isPresentedAsModal
-                  ),
-                  .singleRowPlain(
-                    label: "presentingVC",
-                    value: {
-                      guard let presentingVC = self.presentingViewController else {
-                        return "N/A";
-                      };
-                    
-                      let pointer = Unmanaged.passUnretained(presentingVC);
-                      return "\(pointer.toOpaque())";
-                    }()
-                  ),
-                  .singleRowPlain(
-                    label: "presentedVC",
-                    value: {
-                      guard let presentingVC = self.presentedViewController else {
-                        return "N/A";
-                      };
-                    
-                      let pointer = Unmanaged.passUnretained(presentingVC);
-                      return "\(pointer.toOpaque())";
-                    }()
-                  ),
-                  .singleRowPlain(
-                    label: "modalLevel",
-                    value: self.modalLevel?.description ?? "N/A"
-                  ),
-                  .singleRowPlain(
-                    label: "Presented Modal Count",
-                    value: self.recursivelyGetAllPresentedViewControllers.count
-                  ),
-                ],
-                deriveColorThemeConfigFrom: cardColorThemeConfig
-              );
-              
-              extraContentVStack.removeAllArrangedSubviews();
-              let labelValueDisplayView = labelValueDisplayConfig.createView();
-              extraContentVStack.addArrangedSubview(labelValueDisplayView);
-     
               print(
                 "recursivelyGetAllPresentedViewControllers:",
                 self.recursivelyGetAllPresentedViewControllers.enumerated().reduce(into: ""){
@@ -248,5 +209,86 @@ class Test01ViewController: UIViewController {
         equalTo: self.view.safeAreaLayoutGuide.trailingAnchor
       ),
     ]);
+  };
+  
+  @discardableResult
+  func setModalDebugDisplay() -> UIStackView {
+    var displayItems: [CardLabelValueDisplayItemConfig] = [];
+    
+    displayItems += {
+      guard let modalFocusState = self.modalFocusState else {
+        return [
+          .singleRowPlain(
+            label: "Focus State:",
+            value: "N/A"
+          ),
+        ];
+      };
+      
+      return [
+        .singleRowPlain(
+          label: "Focus State",
+          value: modalFocusState.rawValue
+        ),
+      ];
+    }();
+    
+    displayItems += [
+      .singleRowPlain(
+        label: "isPresentedAsModal",
+        value: self.isPresentedAsModal
+      ),
+      .singleRowPlain(
+        label: "presentingVC",
+        value: {
+          guard let presentingVC = self.presentingViewController else {
+            return "N/A";
+          };
+        
+          let pointer = Unmanaged.passUnretained(presentingVC);
+          return "\(pointer.toOpaque())";
+        }()
+      ),
+      .singleRowPlain(
+        label: "presentedVC",
+        value: {
+          guard let presentingVC = self.presentedViewController else {
+            return "N/A";
+          };
+        
+          let pointer = Unmanaged.passUnretained(presentingVC);
+          return "\(pointer.toOpaque())";
+        }()
+      ),
+      .singleRowPlain(
+        label: "modalLevel",
+        value: self.modalLevel?.description ?? "N/A"
+      ),
+      .singleRowPlain(
+        label: "Presented Modal Count",
+        value: self.recursivelyGetAllPresentedViewControllers.count
+      ),
+    ];
+    
+    let displayConfig = CardLabelValueDisplayConfig(
+      items: displayItems,
+      colorThemeConfig: self.cardThemeConfig
+    );
+    
+    let rootVStack = self.modalDebugDisplayVStack ?? .init();
+    self.modalDebugDisplayVStack = rootVStack;
+    
+    rootVStack.removeAllArrangedSubviews();
+    let displayView = displayConfig.createView();
+    rootVStack.addArrangedSubview(displayView);
+    
+    return rootVStack;
+  };
+
+  func notifyForModalFocusStateChange(
+    prevState: ModalFocusState,
+    nextState: ModalFocusState
+  ) {
+    self.setModalDebugDisplay();
   };
 };
