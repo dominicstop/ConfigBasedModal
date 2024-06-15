@@ -250,12 +250,3 @@ class Test01ViewController: UIViewController {
     ]);
   };
 };
-
-extension UIStackView {
-  
-  func removeAllArrangedSubviews(){
-    self.arrangedSubviews.forEach {
-      $0.removeFromSuperview();
-    };
-  };
-};
