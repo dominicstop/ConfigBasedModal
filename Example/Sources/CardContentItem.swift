@@ -20,6 +20,10 @@ public enum CardContentItem {
   case label([AttributedStringConfig]);
   case multiLineLabel([AttributedStringConfig]);
   
+  case labelValueDisplay(
+    items: [CardLabelValueDisplayItemConfig]
+  );
+  
   case spacer(space: CGFloat);
   
   // MARK: Functions
@@ -119,6 +123,22 @@ public enum CardContentItem {
         
         label.attributedText = configs.makeAttributedString();
         return label;
+        
+      case let .labelValueDisplay(items):
+        var colorThemeConfig = cardConfig.colorThemeConfig;
+        
+        colorThemeConfig.colorBgLight =
+          colorThemeConfig.colorBgDark.withAlphaComponent(0.15);
+          
+        colorThemeConfig.colorBgDark =
+          colorThemeConfig.colorBgDark.withAlphaComponent(0.7)
+      
+        let config = CardLabelValueDisplayConfig(
+          items: items,
+          colorThemeConfig: colorThemeConfig
+        );
+        
+        return config.createView();
         
       case let .spacer(space):
         return UIView(frame: .init(

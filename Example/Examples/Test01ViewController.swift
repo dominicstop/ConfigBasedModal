@@ -123,6 +123,33 @@ class Test01ViewController: UIViewController {
       )
     );
     
+    cardConfig.append(
+      .init(
+        title: "Some Title Lorum Ipsum",
+        subtitle: "Some subtitle here lorum ",
+        desc: [
+          .init(text: "Some desc here lorum ipsum sit amit dolor aspicing Ultricies Vestibulum Aenean Condimentum Elit")
+        ],
+        index: cardConfig.count + 1,
+        content: [
+          .labelValueDisplay(items: [
+            .singleRowPlain(
+              label: "title",
+              value: "value"
+            ),
+            .singleRowPlain(
+              label: "some title 2",
+              value: "some value 2"
+            ),
+            .singleRowPlain(
+              label: "some other value 3",
+              value: "some other value 3"
+            ),
+          ]),
+        ]
+      )
+    );
+    
     cardConfig.forEach {
       let cardView = $0.createCardView();
       stackView.addArrangedSubview(cardView);

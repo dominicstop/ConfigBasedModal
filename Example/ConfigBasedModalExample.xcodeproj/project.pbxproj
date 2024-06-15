@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		88E238172C16612E00D09F3F /* ColorThemeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238162C16612E00D09F3F /* ColorThemeConfig.swift */; };
 		88E238C72C1D132300D09F3F /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238C62C1D132300D09F3F /* CardViewController.swift */; };
+		88E238C92C1D1A2100D09F3F /* CardLabelValueDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */; };
+		88E238CB2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */; };
 		88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */; };
 		88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */; };
 		88F1B9562C13BCE70040EF3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88F1B9552C13BCE70040EF3D /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 /* Begin PBXFileReference section */
 		88E238162C16612E00D09F3F /* ColorThemeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorThemeConfig.swift; sourceTree = "<group>"; };
 		88E238C62C1D132300D09F3F /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelValueDisplayConfig.swift; sourceTree = "<group>"; };
+		88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelValueDisplayItemConfig.swift; sourceTree = "<group>"; };
 		88F1B9492C13BCE50040EF3D /* ConfigBasedModalExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConfigBasedModalExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 				88F1B9762C15E4050040EF3D /* CardConfig.swift */,
 				88E238162C16612E00D09F3F /* ColorThemeConfig.swift */,
 				88E238C62C1D132300D09F3F /* CardViewController.swift */,
+				88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */,
+				88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -180,10 +186,12 @@
 				88F1B9632C13BFA90040EF3D /* Route.swift in Sources */,
 				88F1B9752C15E3D30040EF3D /* CardContentItem.swift in Sources */,
 				88E238172C16612E00D09F3F /* ColorThemeConfig.swift in Sources */,
+				88E238CB2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift in Sources */,
 				88F1B96D2C13FD630040EF3D /* Colors.swift in Sources */,
 				88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */,
 				88E238C72C1D132300D09F3F /* CardViewController.swift in Sources */,
 				88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */,
+				88E238C92C1D1A2100D09F3F /* CardLabelValueDisplayConfig.swift in Sources */,
 				88F1B9652C13BFED0040EF3D /* Test01ViewController.swift in Sources */,
 				88F1B9772C15E4050040EF3D /* CardConfig.swift in Sources */,
 			);
