@@ -1,0 +1,211 @@
+//
+//  ModalPresentationManager.swift
+//  
+//
+//  Created by Dominic Go on 6/11/24.
+//
+
+import UIKit
+import DGSwiftUtilities
+
+
+public final class ModalPresentationManager {
+
+  public typealias `Self` = ModalPresentationManager;
+
+  public static var isSwizzled = false;
+  public static var shouldSwizzle = true;
+
+  public static let shared: Self = .init();
+  
+  var modalDelegates: MulticastDelegate<UIViewController> = .init();
+  
+  init(){
+    self.swizzleIfNeeded();
+  };
+  
+  func registerModal(_ modalVC: UIViewController){
+    let isRegistered = self.modalDelegates.delegates.contains {
+      $0 === modalVC;
+    };
+    
+    guard !isRegistered else { return };
+    self.modalDelegates.add(modalVC);
+  };
+  
+  func swizzleIfNeeded(){
+    guard Self.shouldSwizzle,
+          !Self.isSwizzled
+    else { return };
+    
+    Self.isSwizzled = true;
+    self._swizzlePresent();
+    self._swizzleDismiss();
+  };
+  
+  func _swizzlePresent(){
+    SwizzlingHelpers.swizzlePresent() { originalImp, selector in
+      return { _self, vcToPresent, animated, completion in
+        
+        let currentWindow = _self.view.window ?? vcToPresent.view.window;
+        self._notifyOnModalWillShow(
+          forViewController: vcToPresent,
+          targetWindow: currentWindow
+        );
+        
+        // Call the original implementation.
+        originalImp(_self, selector, vcToPresent, animated){
+          self._notifyOnModalDidShow(
+            forViewController: vcToPresent,
+            targetWindow: currentWindow
+          );
+          completion?();
+        };
+      };
+    };
+  };
+  
+  func _swizzleDismiss(){
+    SwizzlingHelpers.swizzleDismiss() { originalImp, selector in
+      return { _self, animated, completion in
+
+        let currentWindow =
+          _self.view.window ?? _self.presentingViewController?.view.window;
+          
+        self._notifyOnModalWillHide(
+          forViewController: _self,
+          targetWindow: currentWindow
+        );
+        
+        // Call the original implementation.
+        originalImp(_self, selector, animated){
+          self._notifyOnModalDidHide(
+            forViewController: _self,
+            targetWindow: currentWindow
+          );
+          completion?();
+        };
+      };
+    };
+  };
+  
+  func _notifyOnModalWillShow(
+    forViewController modalVC: UIViewController,
+    targetWindow: UIWindow?
+  ){
+    self.registerModal(modalVC);
+    
+    self.notifyForFocusChange(
+      forModal: modalVC,
+      nextState: .focusing,
+      targetWindow: targetWindow
+    );
+  };
+  
+  func _notifyOnModalDidShow(
+    forViewController modalVC: UIViewController,
+    targetWindow: UIWindow?
+  ){
+    
+    self.notifyForFocusChange(
+      forModal: modalVC,
+      nextState: .focused,
+      targetWindow: targetWindow
+    );
+  };
+  
+  func _notifyOnModalWillHide(
+    forViewController modalVC: UIViewController,
+    targetWindow: UIWindow?
+  ){
+    
+    self.notifyForFocusChange(
+      forModal: modalVC,
+      nextState: .blurring,
+      targetWindow: targetWindow
+    );
+  };
+  
+  func _notifyOnModalDidHide(
+    forViewController modalVC: UIViewController,
+    targetWindow: UIWindow?
+  ){
+    
+    self.notifyForFocusChange(
+      forModal: modalVC,
+      nextState: .blurred,
+      targetWindow: targetWindow
+    );
+  };
+  
+  func notifyForFocusChange(
+    forModal modalVC: UIViewController,
+    nextState: ModalFocusState,
+    targetWindow: UIWindow?
+  ){
+    
+    guard let targetWindow = targetWindow ?? UIApplication.shared.activeWindow
+    else { return };
+    
+    let siblingModals = self.modalDelegates.delegates.filter {
+      $0.view.window === targetWindow;
+    };
+    
+    let allPresentedModals =
+      modalVC.recursivelyGetAllPresentedViewControllers;
+    
+    let topMostModal: UIViewController? = {
+      if nextState == .focusing {
+        return modalVC;
+      };
+      
+      return allPresentedModals.last;
+    }();
+    
+    let otherModals = allPresentedModals.filter { presentedModal in
+      if presentedModal === topMostModal {
+        return false;
+      };
+      
+      if presentedModal === modalVC {
+        return false;
+      };
+      
+      return siblingModals.contains {
+        $0 === presentedModal;
+      };
+    };
+
+    switch nextState {
+      case .blurred:
+        modalVC.setModalFocusState(.blurred);
+        topMostModal?.setModalFocusState(.focused);
+        
+      case .blurring:
+        modalVC.setModalFocusState(.blurring);
+        topMostModal?.setModalFocusState(.focusing);
+      
+      case .focused:
+        modalVC.setModalFocusState(.focused);
+        topMostModal?.setModalFocusState(.blurred);
+        
+      case .focusing:
+        modalVC.setModalFocusState(.focusing);
+        topMostModal?.setModalFocusState(.blurring);
+    };
+    
+    otherModals.forEach {
+      $0.setModalFocusState(.blurred);
+    };
+  };
+};
+
+fileprivate extension UIViewController {
+
+  func setModalFocusState(_ nextState: ModalFocusState){
+    guard self.modalFocusState != nextState else { return };
+    let prevState = self.modalFocusState ?? .blurred;
+    
+    self.modalFocusState = nextState;
+  };
+};

@@ -54,6 +54,7 @@ public class ModalConfigManager {
     presentingViewController presentingVC: UIViewController? = nil
   ){
     self._presentingVC = presentingVC;
+    ModalPresentationManager.shared.swizzleIfNeeded();
   };
   
   // MARK: - Methods
