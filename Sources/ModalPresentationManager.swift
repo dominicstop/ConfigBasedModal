@@ -71,16 +71,17 @@ public final class ModalPresentationManager {
 
         let currentWindow =
           _self.view.window ?? _self.presentingViewController?.view.window;
-          
+        
+        let modalVC = _self.presentedViewController!;
         self._notifyOnModalWillHide(
-          forViewController: _self,
+          forViewController: modalVC,
           targetWindow: currentWindow
         );
         
         // Call the original implementation.
         originalImp(_self, selector, animated){
           self._notifyOnModalDidHide(
-            forViewController: _self,
+            forViewController: modalVC,
             targetWindow: currentWindow
           );
           completion?();
@@ -130,10 +131,11 @@ public final class ModalPresentationManager {
     forViewController modalVC: UIViewController,
     targetWindow: UIWindow?
   ){
+    let wasDismissCancelled = modalVC.isPresentedAsModal;
     
     self.notifyForFocusChange(
       forModal: modalVC,
-      nextState: .blurred,
+      nextState: wasDismissCancelled ? .focused : .blurred,
       targetWindow: targetWindow
     );
   };
@@ -144,30 +146,38 @@ public final class ModalPresentationManager {
     targetWindow: UIWindow?
   ){
     
-    guard let targetWindow = targetWindow ?? UIApplication.shared.activeWindow
+    guard let targetWindow = targetWindow ?? UIApplication.shared.activeWindow,
+          let rootVC = targetWindow.rootViewController
     else { return };
     
     let siblingModals = self.modalDelegates.delegates.filter {
       $0.view.window === targetWindow;
     };
     
-    let allPresentedModals =
-      modalVC.recursivelyGetAllPresentedViewControllers;
+    let allPresentedModals = rootVC.recursivelyGetPresentedViewControllers;
+    var prevModal: UIViewController?;
+    var topMostModal: UIViewController?;
     
-    let topMostModal: UIViewController? = {
-      if nextState == .focusing {
-        return modalVC;
-      };
-      
-      return allPresentedModals.last;
-    }();
+    switch nextState {
+      case .focusing, .focused:
+        topMostModal = modalVC;
+        prevModal = allPresentedModals.last {
+          $0 !== modalVC;
+        };
+        
+      case .blurring, .blurred:
+        prevModal = modalVC;
+        topMostModal = allPresentedModals.last {
+          $0 !== modalVC;
+        };
+    };
     
     let otherModals = allPresentedModals.filter { presentedModal in
-      if presentedModal === topMostModal {
+      if presentedModal === prevModal {
         return false;
       };
       
-      if presentedModal === modalVC {
+      if presentedModal === topMostModal {
         return false;
       };
       
@@ -175,23 +185,23 @@ public final class ModalPresentationManager {
         $0 === presentedModal;
       };
     };
-
+    
     switch nextState {
       case .blurred:
-        modalVC.setModalFocusState(.blurred);
         topMostModal?.setModalFocusState(.focused);
+        prevModal?.setModalFocusState(.blurred);
         
       case .blurring:
-        modalVC.setModalFocusState(.blurring);
         topMostModal?.setModalFocusState(.focusing);
+        prevModal?.setModalFocusState(.blurring);
       
       case .focused:
-        modalVC.setModalFocusState(.focused);
-        topMostModal?.setModalFocusState(.blurred);
+        topMostModal?.setModalFocusState(.focused);
+        prevModal?.setModalFocusState(.blurred);
         
       case .focusing:
-        modalVC.setModalFocusState(.focusing);
-        topMostModal?.setModalFocusState(.blurring);
+        topMostModal?.setModalFocusState(.focusing);
+        prevModal?.setModalFocusState(.blurring);
     };
     
     otherModals.forEach {

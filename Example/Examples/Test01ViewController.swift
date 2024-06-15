@@ -260,6 +260,14 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
           return "\(pointer.toOpaque())";
         }()
       ),
+      
+      .singleRowPlain(
+        label: "currentVC",
+        value: {
+          let pointer = Unmanaged.passUnretained(self);
+          return "\(pointer.toOpaque())";
+        }()
+      ),
       .singleRowPlain(
         label: "modalLevel",
         value: self.modalLevel?.description ?? "N/A"
