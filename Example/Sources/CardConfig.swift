@@ -8,33 +8,6 @@
 import UIKit
 import ConfigBasedModal
 
-
-public class CardViewController: UIViewController {
-
-  public var cardConfig: CardConfig;
-  
-  public init(cardConfig: CardConfig){
-    self.cardConfig = cardConfig;
-    super.init(nibName: nil, bundle: nil);
-  };
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented");
-  };
-  
-  public override func loadView() {
-    self.applyCardConfig();
-  };
-  
-  public func applyCardConfig(){
-    if self.isViewLoaded {
-      self.view.removeFromSuperview();
-    };
-    
-    self.view = self.cardConfig.createCardView();
-  };
-};
-
 public struct CardConfig {
 
   // MARK: - Properties
@@ -48,6 +21,7 @@ public struct CardConfig {
     
   public var content: [CardContentItem];
   
+  var contentItems: [UIView] = [];
   public weak var cardViewController: CardViewController?;
   
   // MARK: - Init
@@ -228,7 +202,10 @@ public struct CardConfig {
     }());
     
     let contentViews = self.content.map {
-      $0.makeContent(themeColorConfig: self.colorThemeConfig);
+      $0.makeContent(
+        cardConfig: self,
+        themeColorConfig: self.colorThemeConfig
+      );
     };
     
     contentViews.forEach {
