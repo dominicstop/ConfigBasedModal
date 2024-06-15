@@ -14,7 +14,31 @@ public struct CardLabelValueDisplayConfig {
   public var items: [CardLabelValueDisplayItemConfig];
   public var colorThemeConfig: ColorThemeConfig;
   
-  func createView() -> UIView {
+  public init(
+    items: [CardLabelValueDisplayItemConfig],
+    colorThemeConfig: ColorThemeConfig
+  ) {
+    self.items = items;
+    self.colorThemeConfig = colorThemeConfig;
+  };
+  
+  public init(
+    items: [CardLabelValueDisplayItemConfig],
+    deriveColorThemeConfigFrom colorThemeConfig: ColorThemeConfig
+  ) {
+    self.items = items;
+    var colorThemeConfig = colorThemeConfig;
+    
+    colorThemeConfig.colorBgLight =
+      colorThemeConfig.colorBgDark.withAlphaComponent(0.15);
+      
+    colorThemeConfig.colorBgDark =
+      colorThemeConfig.colorBgDark.withAlphaComponent(0.7);
+
+    self.colorThemeConfig = colorThemeConfig;
+  };
+  
+  public func createView() -> UIView {
     let rootVStack = {
       let stack = UIStackView();
       

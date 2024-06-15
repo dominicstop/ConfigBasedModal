@@ -29,6 +29,7 @@ public class CardViewController: UIViewController {
       self.view.removeFromSuperview();
     };
     
-    self.view = self.cardConfig.createCardView();
+    let cardView = self.cardConfig.createCardView();
+    self.view = cardView.rootVStack;
   };
 };

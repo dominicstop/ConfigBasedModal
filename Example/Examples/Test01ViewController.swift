@@ -34,16 +34,20 @@ class Test01ViewController: UIViewController {
       return stack;
     }();
     
+    let cardColorThemeConfig = ColorThemeConfig.presetPurple;
     var cardConfig: [CardConfig] = [];
     
-    cardConfig.append(
-      .init(
+    cardConfig.append({
+      let extraContentVStack = UIStackView();
+      
+      return .init(
         title: "Test Present",
         desc: [
           .init(text: "Simple test for presenting modals")
         ],
         index: cardConfig.count + 1,
         content: [
+          .view(extraContentVStack),
           .filledButton(
             title: [.init(text: "Present Modal")],
             handler: { _ in
@@ -58,16 +62,51 @@ class Test01ViewController: UIViewController {
           .filledButton(
             title: [.init(text: "Log Modal Details")],
             handler: { _ in
-              print(
-                "Log Modal Details:",
-                "\n - isPresentedAsModal:", self.isPresentedAsModal,
-                "\n - presentingViewController:", self.presentingViewController?.debugDescription ?? "N/A",
-                "\n - presentedViewController:", self.presentedViewController?.debugDescription ?? "N/A",
-                "\n - modalLevel:", self.modalLevel?.description ?? "N/A",
-                "\n - Presented modal count:", self.recursivelyGetAllPresentedViewControllers.count,
-                "\n"
+              
+              let labelValueDisplayConfig = CardLabelValueDisplayConfig(
+                items: [
+                  .singleRowPlain(
+                    label: "isPresentedAsModal",
+                    value: self.isPresentedAsModal
+                  ),
+                  .singleRowPlain(
+                    label: "presentingVC",
+                    value: {
+                      guard let presentingVC = self.presentingViewController else {
+                        return "N/A";
+                      };
+                    
+                      let pointer = Unmanaged.passUnretained(presentingVC);
+                      return "\(pointer.toOpaque())";
+                    }()
+                  ),
+                  .singleRowPlain(
+                    label: "presentedVC",
+                    value: {
+                      guard let presentingVC = self.presentedViewController else {
+                        return "N/A";
+                      };
+                    
+                      let pointer = Unmanaged.passUnretained(presentingVC);
+                      return "\(pointer.toOpaque())";
+                    }()
+                  ),
+                  .singleRowPlain(
+                    label: "modalLevel",
+                    value: self.modalLevel?.description ?? "N/A"
+                  ),
+                  .singleRowPlain(
+                    label: "Presented Modal Count",
+                    value: self.recursivelyGetAllPresentedViewControllers.count
+                  ),
+                ],
+                deriveColorThemeConfigFrom: cardColorThemeConfig
               );
               
+              extraContentVStack.removeAllArrangedSubviews();
+              let labelValueDisplayView = labelValueDisplayConfig.createView();
+              extraContentVStack.addArrangedSubview(labelValueDisplayView);
+     
               print(
                 "recursivelyGetAllPresentedViewControllers:",
                 self.recursivelyGetAllPresentedViewControllers.enumerated().reduce(into: ""){
@@ -83,7 +122,7 @@ class Test01ViewController: UIViewController {
           ),
         ]
       )
-    );
+    }());
     
     cardConfig.append(
       .init(
@@ -151,9 +190,12 @@ class Test01ViewController: UIViewController {
     );
     
     cardConfig.forEach {
-      let cardView = $0.createCardView();
-      stackView.addArrangedSubview(cardView);
-      stackView.setCustomSpacing(15, after: cardView);
+      var cardConfig = $0;
+      cardConfig.colorThemeConfig = cardColorThemeConfig;
+      
+      let cardView = cardConfig.createCardView();
+      stackView.addArrangedSubview(cardView.rootVStack);
+      stackView.setCustomSpacing(15, after: cardView.rootVStack);
     };
     
     let scrollView: UIScrollView = {
@@ -206,5 +248,14 @@ class Test01ViewController: UIViewController {
         equalTo: self.view.safeAreaLayoutGuide.trailingAnchor
       ),
     ]);
+  };
+};
+
+extension UIStackView {
+  
+  func removeAllArrangedSubviews(){
+    self.arrangedSubviews.forEach {
+      $0.removeFromSuperview();
+    };
   };
 };

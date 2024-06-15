@@ -17,6 +17,26 @@ public enum CardLabelValueDisplayItemConfig {
     );
   };
   
+  public static func singleRowPlain(
+    label: String,
+    value: CustomStringConvertible
+  ) -> Self {
+    .singleRow(
+      label: [.init(text: label)],
+      value: [.init(text: value.description)]
+    );
+  };
+  
+  public static func singleRowPlain(
+    label: String,
+    value: CustomDebugStringConvertible
+  ) -> Self {
+    .singleRow(
+      label: [.init(text: label)],
+      value: [.init(text: value.debugDescription)]
+    );
+  };
+  
   case singleRow(
     label: [AttributedStringConfig],
     value: [AttributedStringConfig]

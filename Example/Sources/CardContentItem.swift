@@ -26,6 +26,8 @@ public enum CardContentItem {
   
   case spacer(space: CGFloat);
   
+  case view(UIView);
+  
   // MARK: Functions
   // ---------------
   
@@ -125,17 +127,9 @@ public enum CardContentItem {
         return label;
         
       case let .labelValueDisplay(items):
-        var colorThemeConfig = cardConfig.colorThemeConfig;
-        
-        colorThemeConfig.colorBgLight =
-          colorThemeConfig.colorBgDark.withAlphaComponent(0.15);
-          
-        colorThemeConfig.colorBgDark =
-          colorThemeConfig.colorBgDark.withAlphaComponent(0.7)
-      
         let config = CardLabelValueDisplayConfig(
           items: items,
-          colorThemeConfig: colorThemeConfig
+          deriveColorThemeConfigFrom: cardConfig.colorThemeConfig
         );
         
         return config.createView();
@@ -145,6 +139,9 @@ public enum CardContentItem {
           origin: .zero,
           size: .init(width: 0, height: space)
         ));
+        
+      case let .view(customView):
+        return customView;
     };
   };
 };

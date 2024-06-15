@@ -46,7 +46,7 @@ public struct CardConfig {
   // MARK: - Functions
   // -----------------
   
-  func _createCardHeader() -> UIView {
+  func _createCardHeader() -> UIStackView {
     let isTitleOnly = self.subtitle == nil;
   
     let rootVStack = {
@@ -215,7 +215,11 @@ public struct CardConfig {
     return bodyVStack;
   };
   
-  public func createCardView() -> UIView {
+  public func createCardView() -> (
+    rootVStack: UIStackView,
+    headingVStack: UIStackView,
+    bodyVStack: UIStackView
+  ) {
     let rootVStack = {
       let stack = UIStackView();
       
@@ -239,7 +243,7 @@ public struct CardConfig {
     let bodyVStack = self._createCardBody();
     rootVStack.addArrangedSubview(bodyVStack);
 
-    return rootVStack;
+    return (rootVStack, headingVStack, bodyVStack);
   };
 };
 
