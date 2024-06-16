@@ -7,11 +7,12 @@
 
 import UIKit
 
-fileprivate enum AssociatedKeys: String {
-  case modalFocusState;
-};
-
 extension UIViewController {
+
+  private enum AssociatedKeys: String {
+    case modalFocusState;
+    case modalPresentationState;
+  };
 
   public var modalFocusState: ModalFocusState? {
     get {
@@ -33,13 +34,13 @@ extension UIViewController {
     get {
       self.getInjectedValue(
         keys: AssociatedKeys.self,
-        forKey: .modalFocusState
+        forKey: .modalPresentationState
       );
     }
     set {
       self.setInjectedValue(
         keys: AssociatedKeys.self,
-        forKey: .modalFocusState,
+        forKey: .modalPresentationState,
         value: newValue
       );
     }

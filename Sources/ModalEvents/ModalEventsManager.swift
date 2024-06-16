@@ -73,6 +73,7 @@ public final class ModalEventsManager {
           _self.view.window ?? _self.presentingViewController?.view.window;
           
         let modalVC = _self.presentedViewController ?? _self;
+
         self._notifyOnModalWillHide(
           forViewController: modalVC,
           targetWindow: currentWindow
@@ -96,6 +97,13 @@ public final class ModalEventsManager {
   ){
     self.registerModal(modalVC);
     
+    modalVC.setModalPresentationState(
+      .presenting(
+        trigger: .unknown,
+        wasDismissCancelled: false
+      )
+    );
+    
     self.notifyForFocusChange(
       forModal: modalVC,
       nextState: .focusing,
@@ -108,6 +116,13 @@ public final class ModalEventsManager {
     targetWindow: UIWindow?
   ){
     
+    modalVC.setModalPresentationState(
+      .presented(
+        trigger: .unknown,
+        wasDismissCancelled: false
+      )
+    );
+    
     self.notifyForFocusChange(
       forModal: modalVC,
       nextState: .focused,
@@ -119,6 +134,13 @@ public final class ModalEventsManager {
     forViewController modalVC: UIViewController,
     targetWindow: UIWindow?
   ){
+  
+    let isGestureActive = modalVC.isModalGestureRecognizerActive;
+    let trigger: ModalPresentationTrigger = isGestureActive ? .gesture : .unknown;
+      
+    modalVC.setModalPresentationState(
+      .dismissing(trigger: trigger)
+    );
     
     self.notifyForFocusChange(
       forModal: modalVC,
@@ -131,7 +153,36 @@ public final class ModalEventsManager {
     forViewController modalVC: UIViewController,
     targetWindow: UIWindow?
   ){
+  
+    let wasGestureActive: Bool = {
+      if let gestureState = modalVC.modalGestureRecognizer?.state,
+         gestureState.isActive {
+        
+        return true;
+      };
+    
+      guard let presentationState = modalVC.modalPresentationState else {
+        return false;
+      };
+      
+      switch presentationState {
+        case let .dismissing(trigger):
+          return trigger == .gesture;
+          
+        default:
+          return false;
+      };
+      
+    }();
+    
+    let trigger: ModalPresentationTrigger = wasGestureActive ? .gesture : .unknown;
+    
     let wasDismissCancelled = modalVC.isPresentedAsModal;
+      
+    modalVC.setModalPresentationState(wasDismissCancelled
+      ? .presented(trigger: trigger, wasDismissCancelled: true)
+      : .dismissed(trigger: trigger)
+    );
     
     self.notifyForFocusChange(
       forModal: modalVC,
@@ -222,5 +273,13 @@ fileprivate extension UIViewController {
       prevState: prevState,
       nextState: nextState
     );
+  };
+  
+  func setModalPresentationState(_ nextState: ModalPresentationState){
+    guard self.modalPresentationState != nextState else { return };
+    let eventDelegate = self as? ModalPresentationEventsNotifiable;
+    let prevState = self.modalPresentationState ?? .initialState;
+    
+    self.modalPresentationState = nextState;
   };
 };

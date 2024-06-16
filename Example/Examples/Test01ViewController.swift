@@ -308,10 +308,59 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
         value: self.doesReportModalEvents
       ),
       .singleRowPlain(
-        label: "Gesture State",
+        label: "Modal Gesture State",
         value: self.modalGestureRecognizer?.state.description ?? "N/A"
       ),
+      .singleRowPlain(
+        label: "Modal ScrollView Gesture State",
+        value: self.modalRootScrollViewGestureRecognizer?.state.description ?? "N/A"
+      ),
     ];
+    
+    displayItems += {
+      guard let modalPresentationState = self.modalPresentationState else {
+        return [
+          .singleRowPlain(
+            label: "Presentation State",
+            value: "N/A"
+          ),
+        ];
+      };
+      
+      var items: [CardLabelValueDisplayItemConfig] = [
+        .singleRowPlain(
+          label: "Presentation State",
+          value: modalPresentationState.memberName
+        ),
+        .singleRowPlain(
+          label: "presentationTrigger",
+          value: modalPresentationState.presentationTrigger.rawValue
+        ),
+      ];
+      
+      switch modalPresentationState {
+        case let .presenting(_, wasDismissCancelled):
+          items.append(
+            .singleRowPlain(
+              label: "wasDismissCancelled",
+              value: wasDismissCancelled
+            )
+          );
+          
+        case let .presented(_, wasDismissCancelled):
+          items.append(
+            .singleRowPlain(
+              label: "wasDismissCancelled",
+              value: wasDismissCancelled
+            )
+          );
+          
+        default:
+          break;
+      };
+      
+      return items;
+    }();
     
     displayItems += {
       guard let modalFocusState = self.modalFocusState else {

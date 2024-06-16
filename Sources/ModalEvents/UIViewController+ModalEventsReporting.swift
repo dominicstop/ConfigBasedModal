@@ -8,6 +8,7 @@
 import UIKit
 import DGSwiftUtilities
 
+
 extension UIViewController: ModalEventsReporting {
 
   public var doesReportModalEvents: Bool {
@@ -30,15 +31,22 @@ extension UIViewController: ModalEventsReporting {
       return nil;
     };
     
-    if let scrollView = self.view.recursivelyFindSubview(whereType: UIScrollView.self),
-       let scrollViewGestures = scrollView.gestureRecognizers {
-      
-      scrollViewGestures.forEach {
-        $0.require(toFail: match)
-      };
+    return match;
+  };
+  
+  // MARK: - Helpers
+  // ---------------
+  
+  public var modalRootScrollViewGestureRecognizer: UIPanGestureRecognizer? {
+    guard let scrollView = self.view.recursivelyFindSubview(whereType: UIScrollView.self),
+          let scrollViewGestures = scrollView.gestureRecognizers
+    else {
+      return nil;
     };
     
-    return match;
+    return scrollViewGestures.first(
+      whereType: UIPanGestureRecognizer.self
+    );
   };
   
   public var modalPositionAnimator: CAAnimation? {
@@ -50,5 +58,28 @@ extension UIViewController: ModalEventsReporting {
     };
     
     return presentedView.layer.animation(forKey: "position");
+  };
+  
+  public var isModalGestureRecognizerActive: Bool {
+    guard let modalGesture = self.modalGestureRecognizer else {
+      return false;
+    };
+    
+    if modalGesture.state.isActive {
+      return true;
+    };
+    
+    let isModalGestureFailed =
+         modalGesture.state == .cancelled
+      || modalGesture.state == .failed;
+    
+    if isModalGestureFailed,
+       let scrollViewGesture = self.modalRootScrollViewGestureRecognizer,
+       scrollViewGesture.state.isActive {
+       
+      return true;
+    };
+    
+    return false;
   };
 };
