@@ -71,8 +71,8 @@ public final class ModalEventsManager {
 
         let currentWindow =
           _self.view.window ?? _self.presentingViewController?.view.window;
-        
-        let modalVC = _self.presentedViewController!;
+          
+        let modalVC = _self.presentedViewController ?? _self;
         self._notifyOnModalWillHide(
           forViewController: modalVC,
           targetWindow: currentWindow
