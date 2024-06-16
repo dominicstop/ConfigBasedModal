@@ -153,28 +153,9 @@ public struct CardConfig {
   };
     
   func _createCardBody() -> UIStackView {
-    let bodyVStack = {
-      let stack = UIStackView();
-      
-      stack.axis = .vertical;
-      stack.distribution = .fill;
-      stack.alignment = .fill;
-      stack.spacing = 12;
-      
-      let hasContent = self.content.count > 0;
-      
-      stack.isLayoutMarginsRelativeArrangement = true;
-      stack.layoutMargins = UIEdgeInsets(
-        top: 8,
-        left: 10,
-        bottom: hasContent ? 12 : 8,
-        right: 10
-      );
-                
-      return stack;
-    }();
+    let descLabel: UILabel? = {
+      guard self.desc.count > 0 else { return nil };
     
-    bodyVStack.addArrangedSubview({
       var configs: [AttributedStringConfig] = [
         .init(
           text: "Description: ",
@@ -199,7 +180,33 @@ public struct CardConfig {
       label.attributedText = configs.makeAttributedString();
       
       return label;
-    }());
+    }();
+    
+    let bodyVStack = {
+      let stack = UIStackView();
+      
+      stack.axis = .vertical;
+      stack.distribution = .fill;
+      stack.alignment = .fill;
+      stack.spacing = 12;
+      
+      let hasDesc = descLabel != nil;
+      let hasContent = self.content.count > 0;
+      
+      stack.isLayoutMarginsRelativeArrangement = true;
+      stack.layoutMargins = UIEdgeInsets(
+        top: hasDesc ? 8 : 16,
+        left: 10,
+        bottom: hasContent ? 12 : 8,
+        right: 10
+      );
+                
+      return stack;
+    }();
+    
+    if let descLabel = descLabel {
+      bodyVStack.addArrangedSubview(descLabel);
+    };
     
     let contentViews = self.content.map {
       $0.makeContent(

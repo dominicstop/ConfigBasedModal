@@ -55,7 +55,7 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
           .view(modalDebugDisplayVStack),
           .filledButton(
             title: [.init(text: "Present Modal")],
-            handler: { _ in
+            handler: { _,_ in
               let manager = ModalConfigManager();
               let modalVC = Test01ViewController();
               
@@ -66,7 +66,7 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
           ),
           .filledButton(
             title: [.init(text: "Log Modal Details")],
-            handler: { _ in
+            handler: { _,_ in
               self.setModalDebugDisplay();
               
               print(
@@ -88,18 +88,86 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
     
     cardConfig.append(
       .init(
-        title: "Some Title Lorum Ipsum",
-        subtitle: "One short subtitle",
-        desc: [
-          .init(text: "One medium desc here lorum ipsum sit amit Ultricies Vestibulum Aenean Condimentum Elit")
-        ],
+        title: "Modal Presentation Tests",
+        subtitle: "modal api testing + experiments",
+        desc: [],
         index: cardConfig.count + 1,
         content: [
           .filledButton(
-            title: [.init(text: "Button")],
-            subtitle: [.init(text: "Subtitle lorum ipsum")],
-            handler: { _ in
-              print("pressed");
+            title: [.init(text: "Dismiss Current")],
+            subtitle: [.init(text: "Invoke `dismiss`")],
+            handler: { _, _ in
+              // self.presentingViewController?.dismiss(animated: true);
+              self.dismiss(animated: true);
+            }
+          ),
+          
+          .filledButton(
+            title: [.init(text: "Basic Present Modal")],
+            subtitle: [.init(text: "present using `present`")],
+            handler: { _, _ in
+            
+              let modalVC = Self.init();
+              self.present(modalVC, animated: true);
+            }
+          ),
+          
+          .filledButton(
+            title: [.init(text: "Present Modal in Fullscreen")],
+            subtitle: [.init(text: "modalPresentationStyle = fullScreen")],
+            handler: { config, button in
+              let modalVC = Self.init();
+              modalVC.modalPresentationStyle = .fullScreen;
+              self.present(modalVC, animated: true);
+            }
+          ),
+          
+          .filledButton(
+            title: [.init(text: "Popover + Sheet Test")],
+            subtitle: [.init(text: "present modal as popover w/ sheet config")],
+            handler: { config, button in
+              guard #available(iOS 15.0, *) else { return };
+            
+              let modalVC = Self.init();
+              modalVC.modalPresentationStyle = .popover;
+              modalVC.preferredContentSize = CGSize(width: 200, height: 200);
+              
+              if let popoverController = modalVC.popoverPresentationController {
+                popoverController.sourceView = button;
+                
+                let sheetController =
+                  popoverController.adaptiveSheetPresentationController;
+                
+                sheetController.detents = [.medium()];
+                sheetController.prefersGrabberVisible = true;
+                sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true;
+              };
+
+              self.present(modalVC, animated: true)
+
+            }
+          ),
+          
+          .filledButton(
+            title: [.init(text: "Sheet + SourceView Test")],
+            subtitle: [.init(text: "present sheet + sourceView")],
+            handler: { config, button in
+              guard #available(iOS 15.0, *) else { return };
+            
+              let modalVC = Self.init();
+              modalVC.modalPresentationStyle = .pageSheet;
+              
+              guard let sheetController = modalVC.sheetPresentationController else {
+                return;
+              };
+              
+              sheetController.detents = [.medium()];
+              sheetController.prefersGrabberVisible = true;
+              sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true;
+              sheetController.sourceView = button;
+              
+              self.present(modalVC, animated: true)
+
             }
           ),
         ]
@@ -233,6 +301,10 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
     displayItems += [
       .singleRowPlain(
         label: "doesSupportModalGestures",
+        value: self.doesSupportModalGestures
+      ),
+      .singleRowPlain(
+        label: "doesReportModalEvents",
         value: self.doesReportModalEvents
       ),
       .singleRowPlain(
@@ -306,7 +378,7 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
     
     let displayConfig = CardLabelValueDisplayConfig(
       items: displayItems,
-      colorThemeConfig: self.cardThemeConfig
+      deriveColorThemeConfigFrom: self.cardThemeConfig
     );
     
     let rootVStack = self.modalDebugDisplayVStack ?? .init();

@@ -14,7 +14,7 @@ public enum CardContentItem {
     title: [AttributedStringConfig],
     subtitle: [AttributedStringConfig]? = nil,
     controlEvent: UIControl.Event = .primaryActionTriggered,
-    handler: ((_ context: CardConfig) -> Void)?
+    handler: ((_ context: CardConfig, _ button: UIButton) -> Void)?
   );
   
   case label([AttributedStringConfig]);
@@ -100,7 +100,7 @@ public enum CardContentItem {
         
         if let handler = handler {
           button.addAction(for: controlEvent){
-            handler(cardConfig);
+            handler(cardConfig, button);
           };
         };
         
