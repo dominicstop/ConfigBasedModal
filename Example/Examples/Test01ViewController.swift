@@ -21,8 +21,9 @@ class ModalViewController: UIViewController {
 class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
 
   var cardThemeConfig: ColorThemeConfig = .presetPurple;
-
   var modalDebugDisplayVStack: UIStackView?;
+  
+  var _didSetupGestureRecognizer = false;
   
   override func viewDidLoad() {
     self.view.backgroundColor = .white;
@@ -211,15 +212,40 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
     ]);
   };
   
+  override func viewDidAppear(_ animated: Bool) {
+    self.setupGestureRecognizer();
+  }
+  
+  func setupGestureRecognizer(){
+    guard let gesture = self.modalGestureRecognizer,
+          !self._didSetupGestureRecognizer
+    else { return };
+    
+    gesture.addAction { [unowned self] _ in
+      self.setModalDebugDisplay();
+    };
+  };
+  
   @discardableResult
   func setModalDebugDisplay() -> UIStackView {
     var displayItems: [CardLabelValueDisplayItemConfig] = [];
+    
+    displayItems += [
+      .singleRowPlain(
+        label: "doesSupportModalGestures",
+        value: self.doesReportModalEvents
+      ),
+      .singleRowPlain(
+        label: "Gesture State",
+        value: self.modalGestureRecognizer?.state.description ?? "N/A"
+      ),
+    ];
     
     displayItems += {
       guard let modalFocusState = self.modalFocusState else {
         return [
           .singleRowPlain(
-            label: "Focus State:",
+            label: "Focus State",
             value: "N/A"
           ),
         ];
