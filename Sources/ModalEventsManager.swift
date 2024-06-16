@@ -1,5 +1,5 @@
 //
-//  ModalPresentationManager.swift
+//  ModalEventsManager.swift
 //  
 //
 //  Created by Dominic Go on 6/11/24.
@@ -9,9 +9,9 @@ import UIKit
 import DGSwiftUtilities
 
 
-public final class ModalPresentationManager {
+public final class ModalEventsManager {
 
-  public typealias `Self` = ModalPresentationManager;
+  public typealias `Self` = ModalEventsManager;
 
   public static var isSwizzled = false;
   public static var shouldSwizzle = true;
