@@ -281,5 +281,9 @@ fileprivate extension UIViewController {
     let prevState = self.modalPresentationState ?? .initialState;
     
     self.modalPresentationState = nextState;
+    eventDelegate?.onModalPresentationStateDidChange(
+      prevState: prevState,
+      nextState: nextState
+    );
   };
 };

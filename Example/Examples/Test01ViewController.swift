@@ -17,9 +17,118 @@ class ModalViewController: UIViewController {
   };
 };
 
+class ModalPresentationStyleTestCard: UIViewController {
 
-class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
+  let index: Int;
+  var cardThemeConfig: ColorThemeConfig = .presetPurple;
+  var modalDebugDisplayVStack: UIStackView?;
+  
+  var modalPresentationStyleIndex = 0;
+  
+  var currentModalPresentationStyle: UIModalPresentationStyle {
+    UIModalPresentationStyle.allCases[
+      cyclicIndex: self.modalPresentationStyleIndex
+    ];
+  };
 
+  init(
+    index: Int,
+    cardThemeConfig: ColorThemeConfig
+  ){
+    self.index = index;
+    self.cardThemeConfig = cardThemeConfig;
+    super.init(nibName: nil, bundle: nil);
+  };
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented");
+  };
+  
+  override func viewDidLoad() {
+    let modalDebugDisplayVStack = self.setModalDebugDisplay();
+    self.modalDebugDisplayVStack = modalDebugDisplayVStack;
+    
+    let cardConfig = CardConfig(
+      title: "UIModalPresentationStyle Test",
+      desc: [
+        .init(text: "presentation style test")
+      ],
+      index: self.index,
+      content: [
+        .view(modalDebugDisplayVStack),
+        .filledButton(
+          title: [.init(text: "Next Style")],
+          handler: { _,_ in
+            self.modalPresentationStyleIndex += 1;
+            self.setModalDebugDisplay();
+          }
+        ),
+        .filledButton(
+          title: [.init(text: "Present Modal")],
+          handler: { _,_ in
+            let modalVC = Test01ViewController();
+            modalVC.modalPresentationStyle = self.currentModalPresentationStyle;
+            self.present(modalVC, animated: true);
+          
+          }
+        ),
+      ]
+    );
+    
+    let cardView = cardConfig.createCardView();
+    let rootCardView = cardView.rootVStack;
+    
+    self.view.addSubview(rootCardView);
+    rootCardView.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSLayoutConstraint.activate([
+      rootCardView.leadingAnchor.constraint(
+        equalTo: self.view.leadingAnchor
+      ),
+      rootCardView.trailingAnchor.constraint(
+        equalTo: self.view.trailingAnchor
+      ),
+      rootCardView.topAnchor.constraint(
+        equalTo: self.view.topAnchor
+      ),
+      rootCardView.bottomAnchor.constraint(
+        equalTo: self.view.bottomAnchor
+      ),
+    ]);
+  };
+  
+  @discardableResult
+  func setModalDebugDisplay() -> UIStackView {
+    let displayItems: [CardLabelValueDisplayItemConfig] = [
+      .singleRowPlain(
+        label: "modalPresentationStyleIndex",
+        value: self.modalPresentationStyleIndex
+      ),
+      .singleRowPlain(
+        label: "modalPresentationStyle",
+        value: self.currentModalPresentationStyle.description
+      ),
+    ];
+        
+    let displayConfig = CardLabelValueDisplayConfig(
+      items: displayItems,
+      deriveColorThemeConfigFrom: self.cardThemeConfig
+    );
+    
+    let rootVStack = self.modalDebugDisplayVStack ?? .init();
+    self.modalDebugDisplayVStack = rootVStack;
+    
+    rootVStack.removeAllArrangedSubviews();
+    let displayView = displayConfig.createView();
+    rootVStack.addArrangedSubview(displayView);
+    
+    return rootVStack;
+  };
+};
+
+
+class Test01ViewController: UIViewController, ModalFocusEventsNotifiable, ModalPresentationEventsNotifiable {
+  
   var cardThemeConfig: ColorThemeConfig = .presetPurple;
   var modalDebugDisplayVStack: UIStackView?;
   
@@ -174,51 +283,6 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
       )
     );
     
-    cardConfig.append(
-      .init(
-        title: "Some Title Lorum Ipsum",
-        subtitle: "Some subtitle lorum ipsum",
-        desc: [
-          .init(text: "One short desc here lorum ipsum"),
-          .newLines(2),
-          .init(text: "One medium desc here lorum ipsum sit amit Ultricies Vestibulum Aenean Condimentum Elit"),
-          .init(text:
-              "One long desc here, Maecenas faucibus mollis interdum Quam Adipiscing Tellus Nullam Mattis"
-            + " Aenean Elit Consectetur Dolor; Cursus Cum sociis natoque penatibus et magnis, dis parturient"
-          ),
-        ],
-        index: cardConfig.count + 1,
-        content: []
-      )
-    );
-    
-    cardConfig.append(
-      .init(
-        title: "Some Title Lorum Ipsum",
-        subtitle: "Some subtitle here lorum ",
-        desc: [
-          .init(text: "Some desc here lorum ipsum sit amit dolor aspicing Ultricies Vestibulum Aenean Condimentum Elit")
-        ],
-        index: cardConfig.count + 1,
-        content: [
-          .labelValueDisplay(items: [
-            .singleRowPlain(
-              label: "title",
-              value: "value"
-            ),
-            .singleRowPlain(
-              label: "some title 2",
-              value: "some value 2"
-            ),
-            .singleRowPlain(
-              label: "some other value 3",
-              value: "some other value 3"
-            ),
-          ]),
-        ]
-      )
-    );
-    
     cardConfig.forEach {
       var cardConfig = $0;
       cardConfig.colorThemeConfig = cardColorThemeConfig;
@@ -227,6 +291,26 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
       stackView.addArrangedSubview(cardView.rootVStack);
       stackView.setCustomSpacing(15, after: cardView.rootVStack);
     };
+    
+    
+    var childCardItems: [UIViewController] = [];
+    
+    childCardItems.append(
+      ModalPresentationStyleTestCard(
+        index: cardConfig.count + childCardItems.count + 1,
+        cardThemeConfig: self.cardThemeConfig
+      )
+    );
+    
+    childCardItems.forEach {
+      self.addChild($0);
+      
+      stackView.addArrangedSubview($0.view);
+      stackView.setCustomSpacing(15, after: $0.view);
+      
+      $0.didMove(toParent: self);
+    };
+    
     
     let scrollView: UIScrollView = {
       let scrollView = UIScrollView();
@@ -443,6 +527,13 @@ class Test01ViewController: UIViewController, ModalFocusEventsNotifiable {
   func notifyForModalFocusStateChange(
     prevState: ModalFocusState,
     nextState: ModalFocusState
+  ) {
+    self.setModalDebugDisplay();
+  };
+  
+  func onModalPresentationStateDidChange(
+    prevState: ModalPresentationState,
+    nextState: ModalPresentationState
   ) {
     self.setModalDebugDisplay();
   };
