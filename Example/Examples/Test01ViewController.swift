@@ -106,7 +106,7 @@ class ModalPresentationStyleTestCard: UIViewController {
       ),
       .singleRowPlain(
         label: "modalPresentationStyle",
-        value: self.currentModalPresentationStyle.description
+        value: self.currentModalPresentationStyle.caseString
       ),
     ];
         

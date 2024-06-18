@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit'
   
   s.dependency 'ComputableLayout', '~> 0.7'
-  s.dependency 'DGSwiftUtilities', '~> 0.11'
+  s.dependency 'DGSwiftUtilities', '~> 0.22'
   
 end

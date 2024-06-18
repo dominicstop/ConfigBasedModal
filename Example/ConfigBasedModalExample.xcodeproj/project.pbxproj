@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		88E238172C16612E00D09F3F /* ColorThemeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238162C16612E00D09F3F /* ColorThemeConfig.swift */; };
-		88E238C72C1D132300D09F3F /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238C62C1D132300D09F3F /* CardViewController.swift */; };
-		88E238C92C1D1A2100D09F3F /* CardLabelValueDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */; };
-		88E238CB2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */; };
 		88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */; };
 		88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */; };
 		88F1B9562C13BCE70040EF3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88F1B9552C13BCE70040EF3D /* Assets.xcassets */; };
@@ -18,16 +14,9 @@
 		88F1B9632C13BFA90040EF3D /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9612C13BFA90040EF3D /* Route.swift */; };
 		88F1B9652C13BFED0040EF3D /* Test01ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9642C13BFEC0040EF3D /* Test01ViewController.swift */; };
 		88F1B9682C13C2030040EF3D /* ConfigBasedModal in Frameworks */ = {isa = PBXBuildFile; productRef = 88F1B9672C13C2030040EF3D /* ConfigBasedModal */; };
-		88F1B96D2C13FD630040EF3D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B96C2C13FD620040EF3D /* Colors.swift */; };
-		88F1B9752C15E3D30040EF3D /* CardContentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9742C15E3D30040EF3D /* CardContentItem.swift */; };
-		88F1B9772C15E4050040EF3D /* CardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F1B9762C15E4050040EF3D /* CardConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		88E238162C16612E00D09F3F /* ColorThemeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorThemeConfig.swift; sourceTree = "<group>"; };
-		88E238C62C1D132300D09F3F /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
-		88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelValueDisplayConfig.swift; sourceTree = "<group>"; };
-		88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelValueDisplayItemConfig.swift; sourceTree = "<group>"; };
 		88F1B9492C13BCE50040EF3D /* ConfigBasedModalExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConfigBasedModalExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F1B94C2C13BCE50040EF3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88F1B94E2C13BCE50040EF3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,9 +26,6 @@
 		88F1B9612C13BFA90040EF3D /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		88F1B9642C13BFEC0040EF3D /* Test01ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test01ViewController.swift; sourceTree = "<group>"; };
 		88F1B9692C13C2850040EF3D /* ConfigBasedModal */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ConfigBasedModal; path = ..; sourceTree = "<group>"; };
-		88F1B96C2C13FD620040EF3D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		88F1B9742C15E3D30040EF3D /* CardContentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContentItem.swift; sourceTree = "<group>"; };
-		88F1B9762C15E4050040EF3D /* CardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,13 +75,6 @@
 			isa = PBXGroup;
 			children = (
 				88F1B9612C13BFA90040EF3D /* Route.swift */,
-				88F1B96C2C13FD620040EF3D /* Colors.swift */,
-				88F1B9742C15E3D30040EF3D /* CardContentItem.swift */,
-				88F1B9762C15E4050040EF3D /* CardConfig.swift */,
-				88E238162C16612E00D09F3F /* ColorThemeConfig.swift */,
-				88E238C62C1D132300D09F3F /* CardViewController.swift */,
-				88E238C82C1D1A2000D09F3F /* CardLabelValueDisplayConfig.swift */,
-				88E238CA2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -184,16 +163,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				88F1B9632C13BFA90040EF3D /* Route.swift in Sources */,
-				88F1B9752C15E3D30040EF3D /* CardContentItem.swift in Sources */,
-				88E238172C16612E00D09F3F /* ColorThemeConfig.swift in Sources */,
-				88E238CB2C1D30B800D09F3F /* CardLabelValueDisplayItemConfig.swift in Sources */,
-				88F1B96D2C13FD630040EF3D /* Colors.swift in Sources */,
 				88F1B94D2C13BCE50040EF3D /* AppDelegate.swift in Sources */,
-				88E238C72C1D132300D09F3F /* CardViewController.swift in Sources */,
 				88F1B94F2C13BCE50040EF3D /* SceneDelegate.swift in Sources */,
-				88E238C92C1D1A2100D09F3F /* CardLabelValueDisplayConfig.swift in Sources */,
 				88F1B9652C13BFED0040EF3D /* Test01ViewController.swift in Sources */,
-				88F1B9772C15E4050040EF3D /* CardConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +235,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -320,7 +292,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
