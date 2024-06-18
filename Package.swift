@@ -23,6 +23,10 @@ let package = Package(
       url: "https://github.com/dominicstop/DGSwiftUtilities",
       .upToNextMajor(from: "0.22.0")
     ),
+    .package(
+      url: "https://github.com/dominicstop/VisualEffectBlurView",
+      .upToNextMajor(from: "1.2.1")
+    ),
   ],
   targets: [
     .target(
@@ -30,6 +34,7 @@ let package = Package(
       dependencies: [
         "ComputableLayout",
         "DGSwiftUtilities",
+        "VisualEffectBlurView"
       ],
       path: "Sources",
       linkerSettings: [

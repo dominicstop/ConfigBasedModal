@@ -18,6 +18,13 @@
         "version" : "0.22.0"
       }
     },
+    {
+      "identity" : "visualeffectblurview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dominicstop/VisualEffectBlurView",
+      "state" : {
+        "revision" : "a001b2d658713d5b5b443ba9d926b4867df3fa8a",
+        "version" : "1.2.1"
       }
     }
   ],

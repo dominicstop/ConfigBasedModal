@@ -22,5 +22,6 @@ Pod::Spec.new do |s|
   
   s.dependency 'ComputableLayout', '~> 0.7'
   s.dependency 'DGSwiftUtilities', '~> 0.22'
+  s.dependency 'VisualEffectBlurView', '~> 1.2.1'
   
 end
