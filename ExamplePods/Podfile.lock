@@ -1,16 +1,32 @@
 PODS:
-  - ConfigBasedModal (0.1.0)
+  - ComputableLayout (0.7.0):
+    - DGSwiftUtilities (~> 0.11)
+  - ConfigBasedModal (0.1.0):
+    - ComputableLayout (~> 0.7)
+    - DGSwiftUtilities (~> 0.23)
+    - VisualEffectBlurView (~> 1.2)
+  - DGSwiftUtilities (0.23.0)
+  - VisualEffectBlurView (1.2.1)
 
 DEPENDENCIES:
   - ConfigBasedModal (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - ComputableLayout
+    - DGSwiftUtilities
+    - VisualEffectBlurView
 
 EXTERNAL SOURCES:
   ConfigBasedModal:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ConfigBasedModal: ef7e2c28790a9b0ced8e05cbe86c752a274b7a1c
+  ComputableLayout: c50faffac4ed9f8f05b0ce5e6f3a60df1f6042c8
+  ConfigBasedModal: ec1bb556b8b7668333f6865e313e6dc5553e58a8
+  DGSwiftUtilities: 0d56897d7918df6a2acd0eeebaf59c3860b5d8c5
+  VisualEffectBlurView: 818d5295917f8927df3e206875a6cbabe83cd892
 
-PODFILE CHECKSUM: efecc3bb1aadbf7ba7a752ea863d871a027a75da
+PODFILE CHECKSUM: 06934097f2bf331e6ae794a9361ab8619d83b8e1
 
 COCOAPODS: 1.15.2

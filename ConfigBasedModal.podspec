@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit'
   
   s.dependency 'ComputableLayout', '~> 0.7'
-  s.dependency 'DGSwiftUtilities', '~> 0.22'
-  s.dependency 'VisualEffectBlurView', '~> 1.2.1'
+  s.dependency 'DGSwiftUtilities', '~> 0.23'
+  s.dependency 'VisualEffectBlurView', '~> 1.2'
   
 end
